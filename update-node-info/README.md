@@ -9,3 +9,5 @@ It's not being run by waggle@terra.mcs.anl.gov as a cronjob:
 ```txt
 * * * * * /usr/bin/python3 /home/waggle/update-node-info.py
 ```
+
+_Generating this at the publish site also has the advantage that we don't have to copy ssh keys to beehive just for this._
