@@ -1,8 +1,8 @@
 # update-node-info
 
-This geneerates the `node-info.csv` file we've been publishing to `https://www.mcs.anl.gov/research/projects/waggle/downloads/beehive1/node-info.csv`.
+This generates the file file we've been publishing to `https://www.mcs.anl.gov/research/projects/waggle/downloads/beehive1/node-info.csv`.
 
-This used to be run on beehive1 and pulled directly from the mysql database. It's been migrated to use the beehive nodes API instead.
+This used to be run on beehive1 and pulled directly from the mysql database. It's now using the beehive nodes API instead now that we've migrated mysql. Note: The beehive nodes API is still restricted to inside MCS - if it were public, this endpoint may not be needed at all.
 
 It's not being run by waggle@terra.mcs.anl.gov as a cronjob:
 
