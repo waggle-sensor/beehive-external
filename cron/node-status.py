@@ -11,11 +11,15 @@ from datetime import datetime
 from io import StringIO
 
 
+# MYSQL_HOST = 'localhost'
+MYSQL_HOST = 'beehive-data.cels.anl.gov'
+
 # get the node info from the database
 sys.stderr.write(f'{datetime.now()} Getting node info...\n')
 sys.stderr.flush()
 
-conn = pymysql.connect(host='localhost', user='waggle', password='waggle', db='waggle', charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor)
+conn = pymysql.connect(host=MYSQL_HOST, user='waggle', password='waggle',
+                       db='waggle', charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor)
 with conn.cursor() as cursor:
     cursor.execute("""
         select
@@ -88,7 +92,8 @@ proc = subprocess.Popen([
 ], shell=True, stdout=subprocess.PIPE)
 stdout, _ = proc.communicate()
 
-new_node_ids = set(str(x).lower()[-12:] for x in stdout.decode('utf-8').split('\n'))
+new_node_ids = set(str(x).lower()[-12:]
+                   for x in stdout.decode('utf-8').split('\n'))
 
 
 # combine node ids
@@ -107,19 +112,22 @@ for node_id in nodes.keys():
 sys.stderr.write(f'{datetime.now()} Starting to write output CSV...\n')
 sys.stderr.flush()
 
-writer = csv.DictWriter(sys.stdout, fieldnames=['node_id', 'vsn', 'rssh_port', 'project', 'opmode', 'rssh_connection', 'rmq_connection', 'data_frames', 'description'])
+writer = csv.DictWriter(sys.stdout, fieldnames=[
+                        'node_id', 'vsn', 'rssh_port', 'project', 'opmode', 'rssh_connection', 'rmq_connection', 'data_frames', 'description'])
 writer.writeheader()
 
-rows = sorted(filter(lambda x: x['opmode'] == 'up', nodes.values()), key=lambda y: y['vsn'])
+rows = sorted(filter(lambda x: x['opmode'] ==
+                     'up', nodes.values()), key=lambda y: y['vsn'])
 writer.writerows(rows)
 
-rows = sorted(filter(lambda x: x['opmode'] == 'testing', nodes.values()), key=lambda y: y['vsn'])
+rows = sorted(filter(
+    lambda x: x['opmode'] == 'testing', nodes.values()), key=lambda y: y['vsn'])
 writer.writerows(rows)
 
-rows = sorted(filter(lambda x: x['opmode'] == 'retired', nodes.values()), key=lambda y: y['vsn'])
+rows = sorted(filter(
+    lambda x: x['opmode'] == 'retired', nodes.values()), key=lambda y: y['vsn'])
 writer.writerows(rows)
 
 # Updated metadata
 sys.stderr.write(f'Last updated on {datetime.now()}\n')
 sys.stderr.flush()
-
