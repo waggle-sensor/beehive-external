@@ -11,14 +11,18 @@ printf("# TYPE waggle_training_data_bytes gauge\n");
 
 $resource = "image_bottom";
 
-foreach (glob("*", GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
-    $nodeID = $dir;
+foreach (new FilesystemIterator(".") as $dir) {
+    if (!$dir->isDir()) {
+        continue;
+    }
+
+    $nodeID = $dir->getBasename();
     $total = 0;
     $bytes = 0;
 
-    foreach (glob($dir . "/*.jpg", GLOB_NOSORT) as $filename) {
+    foreach (new FilesystemIterator($dir) as $file) {
         $total += 1;
-        $bytes += filesize($filename);
+        $bytes += $file->getSize();
     }
 
     printf("waggle_training_data_total{node_id=\"%s\",resource=\"%s\"} %d\n", $nodeID, $resource, $total);
