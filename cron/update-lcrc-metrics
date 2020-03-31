@@ -1,0 +1,35 @@
+#!/bin/bash -e
+#
+# collects metrics for lcrc training images and publishes to:
+# https://web.lcrc.anl.gov/public/waggle/private/training_data/aot_audio_and_images/image_bottom/metrics.prom
+#
+
+print_metrics() {
+    echo "# HELP last_update_time UNIX timestamp of last update time."
+    echo "# TYPE last_update_time gauge"
+    echo "last_update_time $(date -u +%s)"
+
+    echo "# HELP waggle_training_data_total Number of items in training data."
+    echo "# TYPE waggle_training_data_total gauge"
+    echo "# HELP waggle_training_data_bytes Total bytes of training data."
+    echo "# TYPE waggle_training_data_bytes gauge"
+
+    for dir in *; do
+        if ! test -d $dir; then
+            continue
+        fi
+
+        (
+            cd $dir
+            bytes=$(du | awk '{print $1}')
+            total=$(ls | wc -l)
+            echo "waggle_training_data_total{node_id=\"$dir\",resource=\"image_bottom\"} $total"
+            echo "waggle_training_data_bytes{node_id=\"$dir\",resource=\"image_bottom\"} $bytes"
+        )
+    done
+}
+
+cd /lcrc/project/waggle/public_html/private/training_data/aot_audio_and_images/image_bottom
+print_metrics > metrics.prom.tmp
+chmod 644 metrics.prom.tmp
+mv metrics.prom.tmp metrics.prom
