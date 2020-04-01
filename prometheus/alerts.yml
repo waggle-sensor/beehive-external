@@ -1,0 +1,10 @@
+groups:
+- name: example
+  rules:
+  - alert: TrainingDataStopped
+    expr: delta(waggle_training_data_total[24h]) <= 0
+    for: 24h
+    labels:
+      severity: page
+    annotations:
+      summary: No longer getting new training data.
