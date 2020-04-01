@@ -18,17 +18,9 @@ scrape_configs:
     static_configs:
     - targets: ['localhost:9090']
 
-  - job_name: 'waggle_datasets'
-    scrape_interval: 5m
-    metrics_path: '/research/projects/waggle/downloads/datasets/metrics.php'
-    scheme: 'https'
-    static_configs:
-    - targets: ['www.mcs.anl.gov:443']
-
   - job_name: 'waggle_training_data'
-    scrape_interval: 1h
-    scrape_timeout: 15s
-    metrics_path: '/public/waggle/private/training_data/aot_audio_and_images/image_bottom/metrics.php'
+    scrape_interval: 5m
+    metrics_path: '/public/waggle/private/training_data/aot_audio_and_images/metrics.php'
     scheme: 'https'
     static_configs:
     - targets: ['web.lcrc.anl.gov:443']
