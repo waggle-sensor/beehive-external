@@ -2,7 +2,7 @@ groups:
 - name: example
   rules:
   - alert: TrainingDataStopped
-    expr: waggle_training_data_total > 0 and delta(waggle_training_data_total[1h]) <= 0
+    expr: (delta(waggle_training_data_total[1h]) and waggle_training_data_total > 0) <= 0
     for: 12h
     labels:
       severity: page
