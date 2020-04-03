@@ -19,7 +19,7 @@ scrape_configs:
     - targets: ['localhost:9090']
 
   - job_name: 'waggle_training_data'
-    metrics_path: '/public/waggle/private/training_data/aot_audio_and_images/metrics.php'
+    metrics_path: '/public/waggle/private/training_data/metrics.php'
     scheme: 'https'
     static_configs:
     - targets: ['web.lcrc.anl.gov:443']
