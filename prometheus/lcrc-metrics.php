@@ -21,5 +21,6 @@ function printResourceMetrics($basedir, $resource, $class) {
 }
 
 printResourceMetrics("aot_audio_and_images/image_bottom", "image_bottom", "good");
+printResourceMetrics("aot_audio_and_images/bad_image_bottom", "image_bottom", "bad");
 printResourceMetrics("aot_audio_and_images/image_top", "image_top", "good");
 ?>
