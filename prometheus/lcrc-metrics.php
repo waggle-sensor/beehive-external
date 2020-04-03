@@ -7,7 +7,7 @@
 printf("# HELP waggle_training_data_total Number of items in training data.\n");
 printf("# TYPE waggle_training_data_total gauge\n");
 
-function printResourceMetrics($resource) {
+function printResourceMetrics($resource, $class) {
     foreach (new FilesystemIterator($resource) as $dir) {
         if (!$dir->isDir()) {
             continue;
@@ -16,10 +16,10 @@ function printResourceMetrics($resource) {
         $nodeID = $dir->getBasename();
         $total = (new GlobIterator($dir . "/*.jpg"))->count();
 
-        printf("waggle_training_data_total{node_id=\"%s\",resource=\"%s\"} %d\n", $nodeID, $resource, $total);
+        printf("waggle_training_data_total{node_id=\"%s\",resource=\"%s\",class=\"%s\"} %d\n", $nodeID, $resource, $class, $total);
     }
 }
 
-printResourceMetrics("image_bottom");
-printResourceMetrics("image_top");
+printResourceMetrics("image_bottom", "good");
+printResourceMetrics("image_top", "good");
 ?>
