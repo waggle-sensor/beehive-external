@@ -1,10 +1,17 @@
 groups:
-- name: example
+- name: alerts
   rules:
   - alert: TrainingDataStopped
-    expr: (delta(waggle_training_data_total[4h]) and waggle_training_data_total > 0) <= 0
-    for: 12h
+    expr: (delta(waggle_training_data_total[12h]) and waggle_training_data_total > 0) <= 0
+    for: 24h
     labels:
       severity: page
     annotations:
       summary: No longer getting new training data.
+  - alert: GettingBadImages
+    expr: delta(waggle_training_data_total{class="bad"}[2h]) > 0
+    for: 0s
+    labels:
+      severity: page
+    annotations:
+      summary: Getting bad images from a node.
