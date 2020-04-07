@@ -64,4 +64,16 @@ printResourceMetrics("aot_audio_and_images/error_image_bottom", "aot_audio_and_i
 printResourceMetrics("aot_audio_and_images/image_top", "aot_audio_and_images/good", "image/top", "image_top", "good");
 printResourceMetrics("aot_audio_and_images/bad_image_top", "aot_audio_and_images/bad", "image/top", "image_top", "bad");
 printResourceMetrics("aot_audio_and_images/error_image_top", "aot_audio_and_images/error", "image/top", "image_top", "error");
+
+printResourceMetrics("aot_audio_and_images/audio_microphone", "aot_audio_and_images/good", "audio/microphone", "audio_microphone", "good");
+printResourceMetrics("aot_audio_and_images/bad_audio_microphone", "aot_audio_and_images/bad", "audio/microphone", "audio_microphone", "bad");
+printResourceMetrics("aot_audio_and_images/error_audio_microphone", "aot_audio_and_images/error", "audio/microphone", "audio_microphone", "error");
+
+printResourceMetrics("aot_audio_and_images/video_bottom", "aot_audio_and_images/good", "video/bottom", "video_bottom", "good");
+printResourceMetrics("aot_audio_and_images/bad_video_bottom", "aot_audio_and_images/bad", "video/bottom", "video_bottom", "bad");
+printResourceMetrics("aot_audio_and_images/error_video_bottom", "aot_audio_and_images/error", "video/bottom", "video_bottom", "error");
+
+printResourceMetrics("aot_audio_and_images/video_top", "aot_audio_and_images/good", "video/top", "video_top", "good");
+printResourceMetrics("aot_audio_and_images/bad_video_top", "aot_audio_and_images/bad", "video/top", "video_top", "bad");
+printResourceMetrics("aot_audio_and_images/error_video_top", "aot_audio_and_images/error", "video/top", "video_top", "error");
 ?>
