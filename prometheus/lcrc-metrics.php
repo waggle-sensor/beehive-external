@@ -4,6 +4,48 @@
 // Description: Serves training size metrics.
 // 
 
+$filesync = [
+    "001e06117b41,image_bottom" => 1,
+    "001e06117b45,image_bottom" => 1,
+    "001e061181b9,image_bottom" => 1,
+    "001e061182a2,image_bottom" => 1,
+    "001e061182a3,image_bottom" => 1,
+    "001e061182ae,image_bottom" => 1,
+    "001e061182bb,image_bottom" => 1,
+    "001e061182c0,image_bottom" => 1,
+    "001e061182c1,image_bottom" => 1,
+    "001e061182e8,image_bottom" => 1,
+    "001e06118366,image_bottom" => 1,
+    "001e061183bf,image_bottom" => 1,
+    "001e061183ec,image_bottom" => 1,
+    "001e061183f3,image_bottom" => 1,
+    "001e061183f5,image_bottom" => 1,
+    "001e061184a3,image_bottom" => 1,
+    "001e06118501,image_bottom" => 1,
+    "001e0611863a,image_bottom" => 1,
+];
+
+$nodes = [
+    "001e06117b41" => 1,
+    "001e06117b45" => 1,
+    "001e061181b9" => 1,
+    "001e061182a2" => 1,
+    "001e061182a3" => 1,
+    "001e061182ae" => 1,
+    "001e061182bb" => 1,
+    "001e061182c0" => 1,
+    "001e061182c1" => 1,
+    "001e061182e8" => 1,
+    "001e06118366" => 1,
+    "001e061183bf" => 1,
+    "001e061183ec" => 1,
+    "001e061183f3" => 1,
+    "001e061183f5" => 1,
+    "001e061184a3" => 1,
+    "001e06118501" => 1,
+    "001e0611863a" => 1,
+];
+
 printf("# HELP waggle_training_data_total Number of items in training data.\n");
 printf("# TYPE waggle_training_data_total gauge\n");
 
@@ -54,6 +96,8 @@ function printResourceMetrics($basedir1, $basedir2, $subdir, $resource, $class, 
 
     foreach ($totals as $nodeID => $total) {
         printf("waggle_training_data_total{node_id=\"%s\",resource=\"%s\",class=\"%s\"} %d\n", $nodeID, $resource, $class, $total);
+        // keep track of nodeID
+        $nodes[$nodeID] = true;
     }
 }
 
@@ -76,4 +120,18 @@ printResourceMetrics("aot_audio_and_images/error_video_bottom", "aot_audio_and_i
 printResourceMetrics("aot_audio_and_images/video_top", "aot_audio_and_images/good", "video/top", "video_top", "good", "*.mp4");
 printResourceMetrics("aot_audio_and_images/bad_video_top", "aot_audio_and_images/bad", "video/top", "video_top", "bad", "*.mp4");
 printResourceMetrics("aot_audio_and_images/error_video_top", "aot_audio_and_images/error", "video/top", "video_top", "error", "*.mp4");
+
+foreach (["image_bottom", "image_top", "audio_microphone", "video_bottom", "video_top"] as $resource) {
+    foreach ($nodes as $nodeID => $_) {
+        $k = $nodeID . "," . $resource;
+
+        if (isset($filesync[$k])) {
+            $is_enabled = $filesync[$k];
+        } else {
+            $is_enabled = 0;
+        }
+
+        printf("waggle_training_data_is_enabled{node_id=\"%s\",resource=\"%s\"} %d\n", $nodeID, $resource, $is_enabled);
+    }
+}
 ?>
