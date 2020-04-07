@@ -20,7 +20,7 @@ function printResourceMetrics($basedir1, $basedir2, $subdir, $resource, $class) 
             }
 
             $nodeID = $dir->getBasename();
-            $total = (new GlobIterator($dir . "/*.jpg"))->count();
+            $total = (new GlobIterator($dir . "/*.*"))->count();
 
             if (!isset($totals[$nodeID])) {
                 $totals[$nodeID] = 0;
@@ -41,7 +41,7 @@ function printResourceMetrics($basedir1, $basedir2, $subdir, $resource, $class) 
             }
 
             $nodeID = $dir->getBasename();
-            $total = (new GlobIterator($dir . "/" . $subdir . "/*/*/*/*.jpg"))->count();
+            $total = (new GlobIterator($dir . "/" . $subdir . "/*/*/*/*.*"))->count();
 
             if (!isset($totals[$nodeID])) {
                 $totals[$nodeID] = 0;
